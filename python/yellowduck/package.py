@@ -3,7 +3,7 @@ import json
 import asyncio
 import platform
 
-from urllib import request, parse
+from urllib import request
 
 
 class Seatbelt:

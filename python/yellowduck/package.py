@@ -31,9 +31,9 @@ class Seatbelt:
     async def go(self):
         done = []
 
-        checks = self.service(checks=[])
-        for check in checks:
-            done.append(check)
+        for check in self.service(checks=[]):
+            # do it
+            done.append(dict(check.get('id'), 100))
         self.service(checks=done)
 
 

@@ -7,7 +7,7 @@ from yellowduck.package import Seatbelt
 
 class Service:
 
-    def __init__(self):
+    def __init__(self, fingerprint=None):
         self.log = logging.getLogger('seatbelt')
         self.seatbelt = Seatbelt()
         self._fingerprint = None

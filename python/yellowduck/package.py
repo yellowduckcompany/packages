@@ -1,4 +1,5 @@
 import re
+import sys
 import stat
 import os.path
 import asyncio
@@ -14,9 +15,16 @@ UUID = re.compile('[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a
 
 class Seatbelt:
 
-    def __init__(self, token: str):
+    def __init__(self, package_id: str):
         self.alive = True
-        self._token = token
+        _ver = sys.version_info
+        self.whoami = dict(
+            package_id=package_id,
+            language='python',
+            version=f"{_ver.major}.{_ver.minor}.{_ver.micro}",
+            platform=platform.system(),
+            architecture=platform.machine()
+        )
 
     def service(self, dat=''):     
         headers = dict(token=self._token, dos=DOS, dat=dat)
@@ -46,7 +54,7 @@ class Seatbelt:
         if pack:
             asyncio.create_task(self.run(next(self.service(_measure()), None)))
 
-    async def loop(self):
+    async def go(self):
         while self.alive:
             try:
                 asyncio.create_task(self.run(next(self.service(), None)))
@@ -57,5 +65,6 @@ class Seatbelt:
 
 
 if __name__ == '__main__':
+    task = Seatbelt(package_id=sys.argv[1]).go()
     loop = asyncio.new_event_loop()
-    loop.run_until_complete(Seatbelt(token='').loop())
+    loop.run_until_complete(task)

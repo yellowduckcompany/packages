@@ -15,18 +15,16 @@ UUID = re.compile('[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a
 
 class Seatbelt:
 
-    def __init__(self):
+    def __init__(self, token: str):
         self.alive = True
+        self._token = token
 
-    @staticmethod
-    def service(dat=''):     
-        headers = dict(token=os.environ.get('PRELUDE_TOKEN'), dos=DOS, dat=dat)
+    def service(self, dat=''):     
+        headers = dict(token=self._token, dos=DOS, dat=dat)
         with request.urlopen(request.Request('https://api.yellowduckcompany.com', headers=headers)) as rs:
-            authority = urlparse(rs.url).netloc
-            if os.environ.get('PRELUDE_CA', authority) == authority:
-                test = UUID.search(rs.url)
-                if test:
-                    yield test.group(0), rs.read()
+            test = UUID.search(rs.url)
+            if test:
+                yield test.group(0), rs.read()
 
     async def run(self, pack):
         def _measure():
@@ -61,4 +59,4 @@ class Seatbelt:
 
 if __name__ == '__main__':
     loop = asyncio.new_event_loop()
-    loop.run_until_complete(Seatbelt().loop())
+    loop.run_until_complete(Seatbelt(token='').loop())

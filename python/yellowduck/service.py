@@ -9,8 +9,7 @@ class Service:
 
     def __init__(self, fingerprint=None):
         self.log = logging.getLogger('seatbelt')
-        self.seatbelt = Seatbelt()
-        self._fingerprint = None
+        self.seatbelt = Seatbelt(token=fingerprint)
         self._thread = None
 
     def start(self):

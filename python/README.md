@@ -1,4 +1,4 @@
-# Python
+# Seatbelt
 
 Add ``seatbelt`` to your requirements file or install using pip:
 ```bash

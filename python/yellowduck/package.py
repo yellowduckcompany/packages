@@ -10,12 +10,11 @@ class Seatbelt:
 
     def __init__(self, package_id: str):
         self.alive = True
-        # establish package config
-        _ver = sys.version_info
+        ver = sys.version_info
         self.config = dict(
             package_id=package_id,
             language='python',
-            version=f"{_ver.major}.{_ver.minor}.{_ver.micro}",
+            version=f"{ver.major}.{ver.minor}.{ver.micro}",
             platform=platform.system(),
             architecture=platform.machine()
         )

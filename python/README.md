@@ -10,5 +10,5 @@ And add this snippet anywhere in your code base:
 ```python
 from yellowduck.service import Service
 
-Service().start()
+Service(package_id='goose').start()
 ```

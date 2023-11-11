@@ -22,8 +22,7 @@ class Seatbelt:
     def service(self, checks: list) -> list:
         url = 'https://api.yellowduckcompany.com'
         data = json.dumps(dict(config=self.config, checks=checks))
-        head = {'Content-Type': 'application/json'}
-        req = request.Request(url, data=data.encode('utf8'), headers=head, method='POST')
+        req = request.Request(url, data=data.encode('utf8'), method='POST')
 
         with request.urlopen(req) as rs:
             yield json.loads(rs.read().decode('utf8'))

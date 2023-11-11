@@ -1,7 +1,7 @@
 # Python
 
 Add ``seatbelt`` to your requirements file or install using pip:
-```
+```bash
 pip install seatbelt
 ```
 
